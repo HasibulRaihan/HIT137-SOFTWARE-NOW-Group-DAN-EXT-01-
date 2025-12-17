@@ -9,9 +9,52 @@
 
 # ----------------------- MAIN PROGRAM START -----------------------
 
+
+
 def encrypt_letter(ch, shift1, shift2):
-    #lowercase letters
-   if 'a'<=ch<='z':
+   
+   """encryption function with three parameters.
+   ch -> character to encrypt
+   shift1 (int)->first shift value entered by user
+   shift2 (int)->second shift value entered by user
+   """
 
-
+    #condition for the lowercase letters
+   if 'a'<= ch <='z':
+      
+      #for the lowercase letter in first half of the alphabet ie a to m
+      if 'a'<= ch <='m':
+        #shift character forward 
+        shift=shift1*shift2 
         
+         #shift character forward and wrap around using module 26
+        return chr((ord(ch) - ord('a') + shift) % 26 + ord('a'))
+      
+      else: #for the lowercase letter in second half of the alphabet (n-z)
+         
+         shift=-(shift1+shift2)    #shift character backward 
+
+         #shift character backward and wrap around using module 26
+         return chr((ord(ch) - ord('a') + shift) % 26 + ord('a'))
+      
+    
+   elif 'A'<= ch <='Z':
+       
+       #for the uppercase letter in first half of the alphabet ie A to M
+       if 'A' <= ch <='M':
+          shift =-shift1 #shift backward by shift1 position
+          return chr((ord(ch) - ord('A') + shift) % 26 + ord('A'))
+        
+       else:
+          #for the uppercase letter in second half of the alphabet
+
+          shift =shift2**2 # shift forward by shift2² positions 
+
+          #shift forward and warp around using 26
+          return chr((ord(ch) - ord('A') + shift) % 26 + ord('A'))
+       
+   else:
+      return ch
+             
+    #check if the character is an uppercase letter
+   
