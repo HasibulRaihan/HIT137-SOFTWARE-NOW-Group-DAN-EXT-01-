@@ -79,7 +79,9 @@ def decrypt_letter(ch, shift1, shift2):
       else:
          #reverse backward shift
          shift = (shift1 + shift2)
-         return chr((ord(ch) - 97 + shift) % 26 + 97)
+
+         
+      return chr((ord(ch) - 97 + shift) % 26 + 97)
       
    elif 'A'<= ch <='Z':
       if 'A' <= ch <= 'M': 
@@ -90,6 +92,8 @@ def decrypt_letter(ch, shift1, shift2):
             shift = -(shift2 * shift2)
       return chr((ord(ch) - 65 + shift) % 26 + 65)
  
+   else:
+       return ch
 '''
 EXAMPLE FOR THIS SCENARIO
  Suppose we have:
@@ -118,3 +122,75 @@ Encryption moves letters according to the rules, and decryption reverses that ex
  
  #---Encrypt file--
  
+def encrypt_file(shift1, shift2):
+    
+    #Opens the file raw_text.txt in read mode.Reads the entire content of the file as a single string and stores the original (unencrypted) text in the variable raw.
+    raw = open("raw_text.txt").read()
+
+    #initialized an empty string where the encrypted text will be stored
+    encrypted = ""
+
+    #Loops through each character in the original text
+    for ch in raw:
+        
+        #Sends each character to the encrypt_letter() function. The returned encrypted character is added to the encrypted string.
+        encrypted += encrypt_letter(ch, shift1, shift2)
+
+#    # Write the encrypted text into a new file ie encrypted_text.txt
+    open("encrypted_text.txt", "w").write(encrypted)
+
+
+ #---Decrypt file--
+
+def decrypt_file(shift1, shift2):
+    
+    # Open the encrypted file and read its entire content
+    enc = open("encrypted_text.txt").read()
+
+   #initialized an empty string where the decrypted text will be stored
+    decrypted = ""
+
+    # Loop through each character in the encrypted text
+    for ch in enc:
+         #Sends each character to the decrypt_letter() function. The returned decrypted character is added to the decrypted string.
+        decrypted += decrypt_letter(ch, shift1, shift2)
+
+    # Write the decrypted text into a new file ie decrypted_text.txt
+    open("decrypted_text.txt", "w").write(decrypted)
+
+
+# VERIFY DECRYPTION
+def verify():
+    
+        # Read the original text from the raw input file
+    original = open("raw_text.txt").read()
+
+   # Read the decrypted text from the decrypted output file
+    decrypted = open("decrypted_text.txt").read()
+
+    # Compare the original text with the decrypted text
+    if original == decrypted:
+        print("\n✔ Decryption successful!")
+    else:
+        print("\n✘ Decryption failed.")
+
+#--------main function-----------
+def main():
+   # Ask the user to enter the first shift value
+    shift1 = int(input("Enter shift1: "))
+
+    # Ask the user to enter the first shift value
+    shift2 = int(input("Enter shift2: "))
+
+   # Inform the user that encryption has started
+    print("Encrypting...")
+    encrypt_file(shift1, shift2)
+
+    print("Decrypting...")
+    decrypt_file(shift1, shift2)
+
+#here the verification is done whether decryption is success or is failed.
+    print("Verifying...")
+    verify()
+
+main()
